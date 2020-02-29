@@ -4,7 +4,7 @@ Blog It is personal tool that you can use to track whatever's on your mind.
 
 # Getting Started
 
-Visit ...
+Visit https://info2300-blogit.herokuapp.com/
 
 ### Clone this repository
 
