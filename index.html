@@ -1,0 +1,296 @@
+<!--
+Assignment 4 (BlogIt) - index.html
+Created by: Marcus Rodrigues
+email:      mrodrigues9405@conestogac.on.ca
+
+Revision History: Marcus Rodrigues, April 13/2019: Created.
+Marcus Rodrigues, April 14/2019: Changed website theme and implemented filter tags.
+-->
+
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+        <title>Blog It</title>
+        <!--My icon-->
+        <link rel="icon" href="img/BlogItIcon.png">
+
+        <!--jQuery-->
+        <script src="js/lib/jquery-2.1.4.js"></script>
+        <!--jQuery mobile-->
+        <script src="js/lib/jquery.mobile-1.4.5.js"></script>
+        <!--jQuery validate-->
+        <script src="js/lib/jquery.validate.js"></script>
+        <!--jQuery hashtag plugin-->
+        <script src="js/lib/jquery.tagsinput.js"></script>
+        <!--jQuery mobile css-->
+        <link rel="stylesheet" type="text/css" href="css/lib/jquery.mobile-1.4.5.css">
+        <!--jQuery hashtag plugin css-->
+        <link rel="stylesheet" type="text/css" href="css/jquery.tagsinput.css">
+
+        <!--My scripts-->
+        <script src="js/database.js"></script>
+        <script src="js/mainDAL.js"></script>
+        <script src="js/util.js"></script>
+        <script src="js/global.js"></script>
+        <script src="js/facade.js"></script>
+        <!--My style sheet-->
+        <link rel="stylesheet" type="text/css" href="css/mystyle.css">
+        <link rel="stylesheet" type="text/css" href="css/jquery.mobile.squareui.css">
+        <link rel="stylesheet" type="text/css" href="css/jquery.mobile.squareui.min.css">
+    </head>
+    <body>
+        <!--Home page-->
+        <div data-role="page" id="BlogItHomePage">
+            <header data-role="header" data-position="fixed" style="background-color:#42413b;">
+                <h1 style="color: white;">Blog It</h1>                
+                <div data-role="navbar" data-iconpos="top">
+                    <ul>
+                        <li><a href="#BlogItHomePage" data-icon="home" data-theme="c" class="ui-btn-active                     
+                            ui-state-persist">Home</a>
+                        </li>
+                        <li><a href="#BlogItCreatePage" data-icon="plus" data-theme="c">Create Blog</a>
+                        </li>
+                        <li><a href="#BlogItDashboardPage" data-icon="grid" data-theme="c">Dashboard</a>
+                        </li>
+                        <li><a href="#BlogItAboutPage" data-icon="gear" data-theme="c">About</a>
+                        </li>
+                    </ul>
+                </div>
+            </header>
+            <section data-role="content">
+                <h2>Blog It - Your personal blogger and friend</h2>
+                <p>Blog It is a personal blogging tool that will let you create, edit and post whatever you would like.</br>
+                    <h3>With Blog It you can:</h3>
+                    - Create new blogs</br>
+                    - Edit recent blogs</br>
+                    - View all your blogs in the dashboard</br></br>
+                    You can start your blogging adventure by navigating to the "Create Blog" page and begin by creating your first blog.
+                </p>
+                <div align="center">
+                    <img src="img/BlogItIcon.png" alt="BlogItIcon" style="width: 30%;">
+                </div>
+                <p>Please feel free to contact me if you have any suggestions or features you would like to see implemented.</p>
+            </section>
+            <footer data-role="footer" data-position="fixed" style="background-color:#42413b;">
+                <h4 style="color: white;">&copy; 2019 Marcus Rodrigues - Blog It</h4>
+            </footer> 
+        </div>
+        <!--Create Blog Page-->
+        <div data-role="page" id="BlogItCreatePage">
+            <header data-role="header" data-position="fixed" style="background-color:#42413b;">
+                <h1 style="color: white;">Create a Blog</h1>
+                <div data-role="navbar" data-iconpos="top">
+                    <ul>
+                        <li><a href="#BlogItHomePage" data-icon="home" data-theme="c">Home</a>
+                        </li>
+                        <li><a href="#BlogItCreatePage" data-icon="plus" data-theme="c" class="ui-btn-active                     
+                            ui-state-persist">Create Blog</a>
+                        </li>
+                        <li><a href="#BlogItDashboardPage" data-icon="grid" data-theme="c">Dashboard</a>
+                        </li>
+                        <li><a href="#BlogItAboutPage" data-icon="gear" data-theme="c">About</a>
+                        </li>
+                    </ul>
+                </div>
+            </header>
+            <section data-role="content">
+                <h2 align="center">Create a Blog</h2>
+                <form id="frm_create_blog" name="frm-create-blog" data-ajax="false">
+                    <!--Blog title textbox-->
+                    <label for="blogit_title">Title:</label>
+                    <input type="text" id="blogit_title" name="blogit_title" class="required" data-clear-btn="true"
+                        placeholder="Blog title" required>
+                    <!--Blog type dropdown list-->
+                    <fieldset data-role="controlgroup">
+                        <legend>Blog Type:</legend>
+                        <div id="blogit_dropdown_forType">
+                            <label for="blogit_blog_type"></label>
+                            <!--Data for type is retrieved from the database via jQuery.
+                                            Check out facade.js for more info-->
+                            <select name="blogit_blog_type" id="blogit_blog_type">
+                                <option value="Personal">Personal</option>
+                                <option value="Hobbies & Passions">Hobbies & Passions</option>
+                                <option value="Life Experiences">Life Experiences</option>
+                            </select>
+                        </div>
+                    </fieldset>
+                    <!--Blog text area-->
+                    <textarea rows="10" cols="100" id="blogit_main_textarea" name="blogit_main_textarea" form="frm_create_blog"
+                        placeholder="Begin writing your blog here..."></textarea>
+                    <!--Blog tags-->
+                    <label for="blogit_tags">Tags (optional):</label>
+                    <input type="tags" id="blogit_tags" name="blogit_tags" data-clear-btn="true" value="">
+                    <!--Blog date of creation-->
+                    <label for="blogit_date_posted">Blog Created On:</label>
+                    <input type="date" id="blogit_date_posted" name="blogit_date_posted" data-theme="c" disabled>
+                    <!--Blog enable comments-->
+                    <label>
+                        <input type="checkbox" id="blogit_enablefeedback" name="blogit_enablefeedback" checked>Would you like to
+                            enable comments for this blog?
+                    </label>
+                    <button type="button" id="blogit_createblog" name="blogit_createblog" style="height:50px;width:150px">Create Blog</button>
+                </form>
+            </section>
+            <footer data-role="footer" data-position="fixed" style="background-color:#42413b;">
+                <h4 style="color: white;">&copy; 2019 Marcus Rodrigues - Blog It</h4>
+            </footer>
+        </div>
+        <!--Dashboard Page-->
+        <div data-role="page" id="BlogItDashboardPage">
+            <header data-role="header" data-position="fixed" style="background-color:#42413b;">
+                <h1 style="color: white;">Dashboard</h1>
+                <div data-role="navbar" data-iconpos="top">
+                    <ul>
+                        <li><a href="#BlogItHomePage" data-icon="home" data-theme="c">Home</a>
+                        </li>
+                        <li><a href="#BlogItCreatePage" data-icon="plus" data-theme="c">Create Blog</a>
+                        </li>
+                        <li><a href="#BlogItDashboardPage" data-icon="grid" data-theme="c" class="ui-btn-active                     
+                            ui-state-persist">Dashboard</a>
+                        </li>
+                        <li><a href="#BlogItAboutPage" data-icon="gear" data-theme="c">About</a>
+                        </li>
+                    </ul>
+                </div>
+            </header>
+            <section data-role="content">
+                <h2 align="center">Dashboard</h2>
+                <ul id="blogit_listOfBlogs" name="blogit_listOfBlogs" data-role="listview" class="ui-listview-inset" data-inset="true">
+                    <li>
+                        <a href="#BlogItEditBlogPage" data-theme="c">
+                            <h4>My day at the zoo</h4>
+                            <p>Author: John Smith</p>
+                            <p>Blog type: Personal</p>
+                            <p>Blog Visits: 7,100</p>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#BlogItEditBlogPage" data-theme="c">
+                            <h4>Moving away from home</h4>
+                            <p>Author: Jack Hei</p>
+                            <p>Blog type: Life Experiences</p>
+                            <p>Blog Visits: 328</p> 
+                        </a> 
+                    </li>
+                </ul>
+            </section>
+            <footer data-role="footer" data-position="fixed" style="background-color:#42413b;">
+                <h4 style="color: white;">&copy; 2019 Marcus Rodrigues - Blog It</h4>
+            </footer> 
+        </div>
+        <!--Edit Blog Page-->
+        <div data-role="page" id="BlogItEditBlogPage">
+            <header data-role="header" data-position="fixed" style="background-color:#42413b;">
+                <h1 style="color: white;">Edit Blog</h1>
+                <div data-role="navbar" data-iconpos="top">
+                    <ul>
+                        <li><a href="#BlogItHomePage" data-icon="home" data-theme="c">Home</a>
+                        </li>
+                        <li><a href="#BlogItCreatePage" data-icon="plus" data-theme="c">Create Blog</a>
+                        </li>
+                        <li><a href="#BlogItDashboardPage" data-icon="grid" data-theme="c" class="ui-btn-active                     
+                            ui-state-persist">Dashboard</a>
+                        </li>
+                        <li><a href="#BlogItAboutPage" data-icon="gear" data-theme="c">About</a>
+                        </li>
+                    </ul>
+                </div>
+            </header>
+            <section data-role="content">
+                <div id="blogit_edit_blog">
+                    <h2 align="center">Edit Blog</h2>
+                    <form id="frm_edit_blog" name="frm_edit_blog" data-ajax="false">
+                        <!--Blog title textbox-->
+                        <label for="blogit_title_edit">Title:</label>
+                        <input type="text" id="blogit_title_edit" name="blogit_title_edit" class="required" data-clear-btn="true"
+                        placeholder="Blog title" required>
+                        <!--Blog type dropdown list-->
+                        <fieldset data-role="controlgroup">
+                        <legend>Blog Type:</legend>
+                        <div id="blogit_dropdown_forType_edit">
+                            <label for="blogit_blog_type_edit"></label>
+                            <!--Data for type is retrieved from the database via jQuery.
+                                            Check out facade.js for more info-->
+                            <select name="blogit_blog_type_edit" id="blogit_blog_type_edit">
+                                <option value="Personal">Personal</option>
+                                <option value="Hobbies & Passions">Hobbies & Passions</option>
+                                <option value="Life Experiences">Life Experiences</option>
+                            </select>
+                        </div>
+                        </fieldset>
+                        <!--Blog text area-->
+                        <textarea rows="10" cols="100" id="blogit_main_textarea_edit" name="blogit_main_textarea_edit" form="frm_edit_blog"
+                        placeholder="Begin writing your blog here..."></textarea>
+                        <!--Blog tags-->
+                        <label for="blogit_tags_edit">Tags:</label>
+                        <input type="tags" id="blogit_tags_edit" name="blogit_tags_edit" data-clear-btn="true" value="">
+                        <!--Blog date of creation-->
+                        <label for="blogit_date_posted_edit">Blog Created On:</label>
+                        <input type="date" id="blogit_date_posted_edit" name="blogit_date_posted_edit" data-theme="c" disabled>
+                        <!--Blog enable comments-->
+                        <label>
+                        <input type="checkbox" id="blogit_enablefeedback_edit" name="blogit_enablefeedback_edit">Would you like to
+                            enable comments for this blog?
+                        </label>
+                        <!--Buttons-->
+                        <div data-role="controlgroup" data-type="horizontal" align="left">
+                            <button type="button" id="blogit_cancel_edit" name="blogit_cancel_edit" data-theme="b"
+                            style="background-color:yellow;" onclick="history.back();"><font color="black">Cancel</font></button>
+                            <button type="button" id="blogit_delete_blog_edit" name="blogit_delete_blog_edit" data-theme="b">Delete Blog
+                            </button>
+                            <button type="button" id="blogit_update_blog_edit" name="blogit_update_blog_edit" data-theme="b"
+                            style="background-color:#3388cc;">Update Blog</button>
+                        </div>
+                    </form>
+                </div>
+            </section>
+            <footer data-role="footer" data-position="fixed" style="background-color:#42413b;">
+                <h4 style="color: white;">&copy; 2019 Marcus Rodrigues - Blog It</h4>
+            </footer> 
+        </div>
+        <!--About Page-->
+        <div data-role="page" id="BlogItAboutPage">
+            <header data-role="header" data-position="fixed" style="background-color:#42413b;">
+                <h1 style="color: white;">About</h1>
+                <div data-role="navbar" data-iconpos="top">
+                    <ul>
+                        <li><a href="#BlogItHomePage" data-icon="home" data-theme="c">Home</a>
+                        </li>
+                        <li><a href="#BlogItCreatePage" data-icon="plus" data-theme="c">Create Blog</a>
+                        </li>
+                        <li><a href="#BlogItDashboardPage" data-icon="grid" data-theme="c">Dashboard</a>
+                        </li>
+                        <li><a href="#BlogItAboutPage" data-icon="gear" data-theme="c" class="ui-btn-active                     
+                            ui-state-persist">About</a>
+                        </li>
+                    </ul>
+                </div>
+            </header>
+            <section data-role="content">
+                <h3>Developers Name: Marcus Rodrigues</h3>
+                <h5>Program Name: ITID (Information Technology Innovation and Design)</h5>
+                <h5>Course: PROG3185 - Mobile Applications</h5>
+                <h5>Instructor: Yash Shah</h5>
+                <div data-role="collapsibleset" style="background-color:#42413b;">
+                    <div data-role="collapsible">
+                        <h3>Email</h3>
+                        <p>School e-mail: <a href="mailto:mrodrigues9405@conestogac.on.ca">mrodrigues9405@conestogac.on.ca</a></p>
+                        <p>Personal e-mail: <a href="mailto:marcus.rodrigues95@gmail.com">marcus.rodrigues95@gmail.com</a></p>
+                    </div>
+                    <div data-role="collapsible">
+                        <h3>Conestoga College</h3>
+                        <p>Website: <a href="https://www.conestogac.on.ca/">https://www.conestogac.on.ca/</a></p>
+                    </div>
+                </div>
+            </section>
+            <footer data-role="footer" data-position="fixed" style="background-color:#42413b;">
+                <h4 style="color: white;">&copy; 2019 Marcus Rodrigues - Blog It</h4>
+            </footer>
+        </div>
+        <!--Main footer-->
+        <footer data-role="footer" data-position="fixed">
+            <h4>&copy; 2019 Marcus Rodrigues - Blog It</h4>
+        </footer>
+    </body>
+</html>
